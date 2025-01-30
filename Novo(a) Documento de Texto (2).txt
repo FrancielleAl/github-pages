@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acervo Digital</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f0f0;
+            color: #333;
+        }
+        #document-container, #admin-panel {
+            width: 80%;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        #indicadores {
+            margin: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background: #f9f9f9;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        button {
+            padding: 10px 15px;
+            margin-top: 10px;
+            cursor: pointer;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    <script>
+        let totalAcessos = 0;
+        let acessosPorDocumento = {};
+
+        function registrarAcesso(usuario) {
+            totalAcessos++;
+            document.getElementById("total-acessos").textContent = totalAcessos;
+        }
+
+        function acessarDocumento(nomeDocumento) {
+            if (!acessosPorDocumento[nomeDocumento]) {
+                acessosPorDocumento[nomeDocumento] = 0;
+            }
+            acessosPorDocumento[nomeDocumento]++;
+            atualizarDocumentosMaisConsultados();
+        }
+
+        function atualizarDocumentosMaisConsultados() {
+            let docMaisConsultado = Object.keys(acessosPorDocumento).reduce((a, b) => 
+                acessosPorDocumento[a] > acessosPorDocumento[b] ? a : b
+            );
+            document.getElementById("doc-mais-consultado").textContent = docMaisConsultado || "Nenhum";
+        }
+
+        // Exemplo de uso
+        window.onload = function() {
+            registrarAcesso("usuário_exemplo"); // Simula um acesso
+            acessarDocumento("Documento 1"); // Simula acesso ao documento
+            acessarDocumento("Documento 2"); // Simula acesso ao documento
+        };
+    </script>
+</head>
+<body>
+    <div id="indicadores">
+        <h2>Indicadores do Site</h2>
+        <p>Total de Acessos: <span id="total-acessos">0</span></p>
+        <p>Documento Mais Consultado: <span id="doc-mais-consultado">Nenhum</span></p>
+        <p>Documento Mais Baixado: <span id="doc-mais-baixado">Nenhum</span></p>
+    </div>
+
+    <div id="document-container">
+        <h2>Documentos</h2>
+        <table>
+            <tr>
+                <th>Nome do Documento</th>
+                <th>Ação</th>
+            </tr>
+            <tr>
+                <td>Documento 1</td>
+                <td><button onclick="acessarDocumento('Documento 1')">Consultar</button></td>
+            </tr>
+            <tr>
+                <td>Documento 2</td>
+                <td><button onclick="acessarDocumento('Documento 2')">Consultar</button></td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
